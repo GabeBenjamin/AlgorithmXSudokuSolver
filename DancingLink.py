@@ -50,7 +50,6 @@ class DancingLink(object):
     # Row must be list of 0's and 1's in order of columns
     # so row = [0, 0, 1, 0, 1, 1, 0] will add links to
     # C, E, and F, 
-    #TODO update row counts per column
     def addRow(self, row):
         first = None
         prev = None
@@ -73,8 +72,12 @@ class DancingLink(object):
                 # Progress prev
                 prev = newLink
 
+                # Set first if not yet set
                 if first == None:
                     first = newLink
+
+                # Update column count
+                column.size += 1
             column = column.right
         if first != None:
             first.left = prev
@@ -102,14 +105,14 @@ class DancingLink(object):
             #s += self.headersToString(self.root)
             colLink = self.root
             rowLink = colLink.down
-            s += colLink.name + ": "
+            s += "(" + colLink.name +", " + str(colLink.size) +"): "
             while (rowLink != colLink):
                 s += rowLink.name + " "
                 rowLink = rowLink.down
             colLink = colLink.right
             s += "\n"
             while(colLink != self.root):
-                s += colLink.name + ": "
+                s += "(" + colLink.name +", " + str(colLink.size) +"): "
                 rowLink = colLink.down
                 while (rowLink != colLink):
                     s += rowLink.name + " "
