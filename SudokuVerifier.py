@@ -103,9 +103,13 @@ class SudokuVerifier:
             return False
     return True
 
-b = Board(9)
-b.generateRandom()
-#b.inputBoard("solved01.txt")
-b.printBoard()
-sv = SudokuVerifier()
-print(sv.verify(b))
+def main():
+  b = Board(9)
+  b.generateRandom()
+  #b.inputBoard("solved01.txt")
+  b.printBoard()
+  sv = SudokuVerifier()
+  print(sv.verify(b))
+
+if __name__ == "__main__":
+  main()
