@@ -83,7 +83,7 @@ def search(k, h , sol,root):
         #print("c = " + c.toString() + " size: " + str(c.size))
         c = c.right
     if c.size == 0:
-        return False
+        return None
     ###sol.append(c.name)
 
     # Cover column c
@@ -102,7 +102,12 @@ def search(k, h , sol,root):
             coverC(j)
             j = j.right
         print "END LOOP 1"
-        search(k+1, h, sol,root)
+        result = search(k+1, h, sol,root)
+
+        # If we returned an answer,
+        # then we can immediately stop and return
+        if result != None:
+            return result
         r = sol.pop()
        # r = save
         c = r.listHeader#c = c.right CHANGED B/C JAVA
