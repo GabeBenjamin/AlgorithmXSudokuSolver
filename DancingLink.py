@@ -142,5 +142,10 @@ class Link(object):
         self.row = mRow
 
     def toString(self):
-        return self.listHeader.name + "::" + self.name + "::" + str(self.row)
+        mStr = ""
+        if self.row == 0:
+            mStr = "COL::" + self.name + " NumRows=" + str(self.size)
+        else:
+            mStr = self.listHeader.name + "::" + self.name + "::" + str(self.row)
+        return mStr
 

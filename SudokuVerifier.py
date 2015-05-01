@@ -19,12 +19,13 @@ class Board:
           r = random.randrange(self.size)
           slot = self.board[i][r]
         self.board[i][r] = j+1
+
   def printBoard(self):
     mStr = ""
     for i in range(self.size):
       if i != 0 and i % math.sqrt(self.size) == 0:
         mult = (self.size*3 + (int(math.sqrt(self.size))-1)*3)
-        print "mult = " + str(mult)
+        #print "mult = " + str(mult)
         mStr += '-'*mult
         mStr += "\n"
       for j in range(self.size):
@@ -49,6 +50,8 @@ class Board:
   def generateCorrect(self):
     #TODO
     pass
+
+  
 
   def inputBoard(self, fileName):
     f = open(fileName)
@@ -110,6 +113,17 @@ def main():
   b.printBoard()
   sv = SudokuVerifier()
   print(sv.verify(b))
+
+  b2 = Board(4)
+  b2.inputBoard("input/4x4_01.txt")
+  b2.printBoard()
+  print(sv.verify(b2))
+
+  b3 = Board(4)
+  b3.inputBoard("input/4x4_01_unsolved.txt")
+  b3.printBoard()
+  print(sv.verify(b3))
+
 
 if __name__ == "__main__":
   main()
