@@ -4,15 +4,22 @@ from SudokuVerifier import Board
 from SudokuVerifier import SudokuVerifier
 from AlgorithmX import AlgorithmX
 from DancingLink import DancingLink
+import time
 import math
 
 class SudokuSolver():
 
+    """
+    Simple method to get the region number of a given row and column
+    """
     def getRegion(self, r, c, width):
         mRow = int(r/width)
         mCol = int(c/width)
         return int(mCol + mRow*width)
 
+    """
+    Generates a row for the Exact Cover representation given val, row, column, and size
+    """
     def generateRow(self, val, r, c, size):
         row = [0 for x in range(size*size*4)]
         # Constraint 1
@@ -30,6 +37,9 @@ class SudokuSolver():
 
         return row
 
+    """
+    Traverses the row and gets the 4 columns in which there is a 1 for that row
+    """
     def get1ColsForRow(self, row):
         cols = []
         for i, val in enumerate(row):
@@ -37,6 +47,10 @@ class SudokuSolver():
                 cols.append(i)
         return cols
 
+    """
+    Takes a board and creates a 2x2 matrix of 1's and 0's that represent
+    the sudoku board as an Exact Cover problem
+    """
     def generate2DEP(self, board):
         rows = []
         for i in range(board.size):
@@ -78,14 +92,17 @@ class SudokuSolver():
                 if (board.board[row][col] == 0) or (board.board[row][col] == -1):
                     board.board[row][col] = val
                 else:
-                    print "ACTUAL = " + str(board.board[row][col]) + " GUESS = " + str(val)
+                    pass
+                    #print "ACTUAL = " + str(board.board[row][col]) + " GUESS = " + str(val)
         return board
 
-
-
-def main():
+##### TESTS #####
+"""
+Test the Exact Cover conversion. We used this as a guide:
+https://www.ocf.berkeley.edu/~jchu/publicportal/sudoku/4x4.dlx.64x64.xls
+"""
+def testExactCoverGenerator():
     ss = SudokuSolver()
-    """
     b = Board(4)
     #b.board[0][0] = 3
     ep = ss.generate2DEP(b)
@@ -100,7 +117,11 @@ def main():
                 mStr += " || "
             mStr += str(col) + ", "
         print mStr
-    """
+"""
+Tests a single 4 x 4 partially filled in board
+"""
+def test4x4Solver():
+    ss = SudokuSolver()
     b2 = Board(4)
     b2.inputBoard("input/4x4_01_unsolved.txt")
     ep = ss.generate2DEP(b2)
@@ -121,12 +142,73 @@ def main():
     sv = SudokuVerifier()
     print sv.verify(result)
 
+"""
+Tests a single 9 x 9 partially filled in board
+"""
+def test9x9Solver():
+    ss = SudokuSolver()
+    sv = SudokuVerifier()
     b3 = Board(9)
     b3.inputBoard("input/partial01.txt")
     b3.printBoard()
     result2 = ss.solve(b3)
     result2.printBoard()
     print sv.verify(result2)
+"""
+Tests 95 hard 9 x 9 partially filled in boards (sparse)
+"""
+def testTop95():
+    ss = SudokuSolver()
+    sv = SudokuVerifier()
+    total = 0
+
+    for x in range(95):
+        wb = Board(9)
+        wb.lineToBoard("input/warwick_top95.txt", x)
+        #wb.printBoard()
+        start = time.time()
+        result3 = ss.solve(wb)
+        end = time.time()
+        total += end - start
+        #result3.printBoard()
+        solved =  sv.verify(result3)
+        if not solved:
+            print "******ERROR*******"
+            result3.printBoard()
+            return
+        print solved
+    print total
+
+"""
+Tests 17445 easy 9 x 9 partially filled in boards (not as sparse)
+"""
+def testLargeNumber():
+    ss = SudokuSolver()
+    sv = SudokuVerifier()
+    total = 0
+
+    for x in range(17445):
+        wb = Board(9)
+        wb.lineToBoard("input/warwick_subig20.txt", x)
+        #wb.printBoard()
+        start = time.time()
+        result3 = ss.solve(wb)
+        end = time.time()
+        total += end - start
+        #result3.printBoard()
+        solved =  sv.verify(result3)
+        if not solved:
+            print "******ERROR*******"
+            result3.printBoard()
+            return
+        print solved
+    print total
+
+def main():
+    testTop95()
+
+
+
 
 
 if __name__ == "__main__":
