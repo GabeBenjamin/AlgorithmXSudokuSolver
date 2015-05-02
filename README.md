@@ -42,7 +42,7 @@ We use Knuth's Algorithm X and DancingLinks to create a Sudoku Solver relatively
 
 ## ToDo List
 - [x] Implement Sudoku Verifier
-- [ ] Implment DancingLinks data structure
-- [ ] Implement Algorithm X using DancingLinks
-- [ ] Implement Sudoku Solver using Algorithm X
+- [x] Implment DancingLinks data structure
+- [x] Implement Algorithm X using DancingLinks
+- [x] Implement Sudoku Solver using Algorithm X
 - [ ] Finish README
